@@ -22,14 +22,23 @@ def extract_dynamic_content(url):
 
          # Extract desired elements: <h1> through <h5> and <p>
         tags_to_extract = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'li', 'div']
-        extracted_texts = set()
+        extracted_texts = list()
 
-        for tag in tags_to_extract:
-            elements = soup.find_all(tag)
-            for element in elements:
-                text = element.text.strip()
-                if text:
-                    extracted_texts.add(element.text)
+        # Extract headers (h1, h2, h3, etc.) and their content
+        for header in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
+            content = []
+            # Collect the sibling content after the header
+            for sibling in header.find_next_siblings():
+                if sibling.name and sibling.name.startswith("h"):
+                    break
+                if sibling.text.strip():
+                    content.append(sibling.text.strip())
+        
+            extracted_texts.append({
+                "header": header.text.strip(),
+                "level": header.name,
+                "content": " ".join(content)
+            })
 
         """
         # Print extracted content
