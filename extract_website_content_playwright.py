@@ -21,7 +21,7 @@ def extract_dynamic_content(url):
         soup = BeautifulSoup(html, 'html.parser')
 
          # Extract desired elements: <h1> through <h5> and <p>
-        tags_to_extract = ['h1', 'h2', 'h3', 'h4', 'h5', 'p']
+        tags_to_extract = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'li', 'div']
         extracted_texts = set()
 
         for tag in tags_to_extract:
